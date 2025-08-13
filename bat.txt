@@ -1,0 +1,50 @@
+#!/bin/bash
+
+# Personal Finance Chatbot Setup Script
+echo "🚀 Setting up Personal Finance Chatbot..."
+
+# Check if Python is installed
+if ! command -v python3 &> /dev/null; then
+    echo "❌ Python 3 is not installed. Please install Python 3.8+ first."
+    exit 1
+fi
+
+echo "✅ Python found: $(python3 --version)"
+
+# Create virtual environment
+echo "📦 Creating virtual environment..."
+python3 -m venv finance_chatbot_env
+
+# Activate virtual environment
+echo "🔧 Activating virtual environment..."
+source finance_chatbot_env/bin/activate  # On Windows: finance_chatbot_env\Scripts\activate
+
+# Upgrade pip
+echo "⬆️ Upgrading pip..."
+pip install --upgrade pip
+
+# Install requirements
+echo "📥 Installing required packages..."
+pip install -r requirements.txt
+
+# Create necessary directories
+echo "📁 Creating directories..."
+mkdir -p model_cache
+mkdir -p logs
+mkdir -p data
+
+# Create .env file from template if it doesn't exist
+if [ ! -f .env ]; then
+    echo "📝 Creating .env configuration file..."
+    cp .env.example .env
+    echo "⚠️ Please edit .env file with your API keys and configuration"
+fi
+
+echo "✨ Setup complete!"
+echo ""
+echo "🎯 Next steps:"
+echo "1. Edit the .env file with your configuration"
+echo "2. Run the application with: streamlit run app.py"
+echo ""
+echo "📚 Optional: Get a HuggingFace token from https://huggingface.co/settings/tokens"
+echo "   This will improve model download speeds and access to more models."
